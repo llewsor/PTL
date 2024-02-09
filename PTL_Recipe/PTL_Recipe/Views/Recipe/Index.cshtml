@@ -1,0 +1,83 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using PTL_Recipe.Areas.Identity.Data
+@model IEnumerable<Entity.Models.Recipe>
+
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <link rel="stylesheet" href="~/css/jquery.dataTables.min.css" asp-append-version="true" />
+}
+
+<h1>Recipes</h1>
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <p>
+        <a asp-action="Create">Add a new recipe</a>
+    </p>
+}
+<table class="table" id="tblRecipes">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ingreditents)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cuisine)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ingreditents)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cuisine)
+            </td>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <td>
+				<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+				<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+				<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        }
+        else
+        {
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+            </td>
+        }
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts {
+    <script src="~/lib/jquery/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        new DataTable('#tblRecipes');
+        </script>
+}

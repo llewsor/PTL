@@ -1,0 +1,67 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using PTL_Recipe.Areas.Identity.Data
+@model Entity.Models.Recipe
+
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Recipe</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Ingreditents)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Ingreditents)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Category)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cuisine)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cuisine)
+        </dd>
+        <dd class="col-sm-10">
+            @for(int i = 0;i<100;i++)
+            {
+                @($"INSERT INTO recipes ([Id],[Name],[Description],[Ingreditents],[Category],[Cuisine],[Active],[DateCreated]) VALUES('{Guid.NewGuid()}','{Html.DisplayFor(model => model.DateCreated)}+{Guid.NewGuid().ToString().Substring(0, 4)}', '[Description] value2', '[Ingreditents] value3', '[Category]...', '[[Cuisine]]...', 1, '2024-02-09 10:22:02.0061925'); ")
+            }
+        </dd>
+    </dl>
+</div>
+@if (SignInManager.IsSignedIn(User))
+{
+<div>
+	<a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> | <a asp-action="Index">Back to List</a>
+</div>
+}
+else
+{
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+}
